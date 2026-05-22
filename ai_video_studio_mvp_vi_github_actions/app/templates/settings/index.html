@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="h3 mb-1">Cài đặt</h1>
+<p class="text-muted mb-4">Lưu API key và cấu hình nhà cung cấp AI. Bản MVP dùng nhà cung cấp mô phỏng để chạy trên máy local.</p>
+<div class="row g-4">
+  <div class="col-lg-7">
+    <div class="card shadow-sm">
+      <div class="card-header bg-white"><strong>Nhà cung cấp AI</strong></div>
+      <div class="card-body">
+        <form method="post" action="/settings" class="vstack gap-3">
+          <div><label class="form-label">API key mô hình văn bản AI</label><input class="form-control" type="password" name="text_model_api_key" value="{{ values.text_model_api_key or '' }}"></div>
+          <div><label class="form-label">API key Veo / nhà cung cấp video AI</label><input class="form-control" type="password" name="veo_api_key" value="{{ values.veo_api_key or '' }}"></div>
+          <div><label class="form-label">Tên model Veo</label><input class="form-control" name="veo_model" value="{{ values.veo_model or 'veo-3.1-generate-preview' }}"></div>
+          <div class="row g-3">
+            <div class="col-md-6"><label class="form-label">Độ phân giải mặc định</label><input class="form-control" name="default_resolution" value="{{ values.default_resolution or '1280x720' }}"></div>
+            <div class="col-md-6"><label class="form-label">FPS mặc định</label><input class="form-control" name="default_fps" value="{{ values.default_fps or '30' }}"></div>
+          </div>
+          <button class="btn btn-primary">Lưu cài đặt</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <div class="card shadow-sm">
+      <div class="card-header bg-white"><strong>Cấu hình hệ thống</strong></div>
+      <div class="card-body">
+        <dl class="row mb-0">
+          <dt class="col-4">Thư mục media</dt><dd class="col-8"><code>{{ media_root }}</code></dd>
+          <dt class="col-4">FFmpeg</dt><dd class="col-8"><code>{{ ffmpeg_bin }}</code></dd>
+        </dl>
+        <div class="alert alert-warning mt-3 mb-0 small">Không đưa file <code>.env</code> có API key lên Git hoặc gửi cho người khác.</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

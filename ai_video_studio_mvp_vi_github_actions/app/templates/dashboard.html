@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex align-items-center justify-content-between mb-4">
+  <div>
+    <h1 class="h3 mb-1">Bảng điều khiển</h1>
+    <p class="text-muted mb-0">Quản lý dự án tạo video AI từ kịch bản nhiều tập.</p>
+  </div>
+  <a href="/projects" class="btn btn-primary">Tạo dự án mới</a>
+</div>
+<div class="row g-3 mb-4">
+  <div class="col-md-4"><div class="card shadow-sm"><div class="card-body"><div class="text-muted">Tổng số dự án</div><div class="display-6">{{ total_projects }}</div></div></div></div>
+  <div class="col-md-4"><div class="card shadow-sm"><div class="card-body"><div class="text-muted">Tập đang xử lý</div><div class="display-6">{{ processing_episodes }}</div></div></div></div>
+  <div class="col-md-4"><div class="card shadow-sm"><div class="card-body"><div class="text-muted">Video đã hoàn thành</div><div class="display-6">{{ completed_episodes }}</div></div></div></div>
+</div>
+<div class="row g-4">
+  <div class="col-lg-7">
+    <div class="card shadow-sm">
+      <div class="card-header bg-white"><strong>Dự án gần đây</strong></div>
+      <div class="list-group list-group-flush">
+        {% for project in recent_projects %}
+        <a class="list-group-item list-group-item-action" href="/projects/{{ project.id }}">
+          <div class="fw-semibold">{{ project.name }}</div>
+          <div class="small text-muted">{{ project.genre }} · {{ project.visual_style }} · {{ project.aspect_ratio }}</div>
+        </a>
+        {% else %}
+        <div class="list-group-item text-muted">Chưa có dự án. Hãy tạo dự án đầu tiên.</div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <div class="card shadow-sm">
+      <div class="card-header bg-white"><strong>Lỗi gần đây</strong></div>
+      <div class="list-group list-group-flush">
+        {% for scene in errors %}
+        <a class="list-group-item list-group-item-action" href="/episodes/{{ scene.episode_id }}">
+          <div class="fw-semibold">Cảnh {{ scene.scene_number }}: {{ scene.title }}</div>
+          <div class="small text-danger">{{ scene.error_message }}</div>
+        </a>
+        {% else %}
+        <div class="list-group-item text-muted">Chưa ghi nhận lỗi.</div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex align-items-start justify-content-between mb-4">
+  <div>
+    <h1 class="h3 mb-1">{{ project.name }}</h1>
+    <p class="text-muted mb-0">{{ project.genre }} · {{ project.visual_style }} · {{ project.aspect_ratio }} · {{ project.language }}</p>
+  </div>
+  <a href="/projects" class="btn btn-outline-secondary">Quay lại danh sách</a>
+</div>
+<div class="row g-4">
+  <div class="col-lg-5">
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-white"><strong>Thông tin dự án</strong></div>
+      <div class="card-body">
+        <p>{{ project.description or 'Chưa có mô tả.' }}</p>
+        <dl class="row small mb-0">
+          <dt class="col-5">Giây mỗi cảnh</dt><dd class="col-7">{{ project.default_duration_per_scene }}</dd>
+          <dt class="col-5">Nhà cung cấp</dt><dd class="col-7">{{ project.provider_name }}</dd>
+          <dt class="col-5">Ngày tạo</dt><dd class="col-7">{{ project.created_at.strftime('%d/%m/%Y %H:%M') }}</dd>
+        </dl>
+      </div>
+    </div>
+    <div class="card shadow-sm">
+      <div class="card-header bg-white"><strong>Hồ sơ nhân vật cố định</strong></div>
+      <div class="card-body">
+        <pre class="pre-scroll bg-light p-3 rounded">{{ character_bible }}</pre>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-7">
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-white d-flex justify-content-between"><strong>Nhân vật</strong><span class="badge bg-secondary">{{ project.characters|length }}</span></div>
+      <div class="card-body">
+        <form method="post" action="/projects/{{ project.id }}/characters" class="row g-3 mb-4">
+          <div class="col-md-6"><label class="form-label">Tên nhân vật</label><input class="form-control" name="name" required></div>
+          <div class="col-md-6"><label class="form-label">Vai trò</label><input class="form-control" name="role"></div>
+          <div class="col-md-4"><label class="form-label">Tuổi</label><input class="form-control" name="age"></div>
+          <div class="col-md-4"><label class="form-label">Giới tính</label><input class="form-control" name="gender"></div>
+          <div class="col-md-4"><label class="form-label">Màu chủ đạo</label><input class="form-control" name="dominant_colors"></div>
+          <div class="col-md-6"><label class="form-label">Ngoại hình</label><textarea class="form-control" name="appearance" rows="2"></textarea></div>
+          <div class="col-md-6"><label class="form-label">Gương mặt</label><textarea class="form-control" name="face_description" rows="2"></textarea></div>
+          <div class="col-md-6"><label class="form-label">Tóc</label><textarea class="form-control" name="hair_description" rows="2"></textarea></div>
+          <div class="col-md-6"><label class="form-label">Trang phục mặc định</label><textarea class="form-control" name="outfit_description" rows="2"></textarea></div>
+          <div class="col-md-6"><label class="form-label">Tính cách</label><textarea class="form-control" name="personality" rows="2"></textarea></div>
+          <div class="col-md-6"><label class="form-label">Giọng nói</label><textarea class="form-control" name="voice_description" rows="2"></textarea></div>
+          <div class="col-12"><label class="form-label">Prompt nhận diện cố định</label><textarea class="form-control" name="fixed_character_prompt" rows="3" placeholder="Để trống để hệ thống tự ghép từ các trường trên"></textarea></div>
+          <div class="col-12"><button class="btn btn-primary">Thêm nhân vật</button></div>
+        </form>
+        <div class="vstack gap-2">
+          {% for char in project.characters %}
+          <div class="border rounded p-3">
+            <div class="d-flex justify-content-between gap-3">
+              <div>
+                <div class="fw-bold">{{ char.name }} <span class="text-muted fw-normal">{{ char.role or '' }}</span></div>
+                <div class="small text-muted">{{ char.age or '' }} {{ char.gender or '' }} · {{ char.dominant_colors or '' }}</div>
+                <div class="small mt-1">{{ char.appearance or char.fixed_character_prompt or '' }}</div>
+              </div>
+              <form method="post" action="/projects/{{ project.id }}/characters/{{ char.id }}/delete" onsubmit="return confirm('Bạn chắc chắn muốn xóa nhân vật này?')">
+                <button class="btn btn-sm btn-outline-danger">Xóa</button>
+              </form>
+            </div>
+          </div>
+          {% else %}
+          <div class="text-muted">Chưa có nhân vật.</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="card shadow-sm">
+      <div class="card-header bg-white d-flex justify-content-between"><strong>Tập phim</strong><span class="badge bg-secondary">{{ project.episodes|length }}</span></div>
+      <div class="card-body">
+        <form method="post" action="/projects/{{ project.id }}/episodes" class="mb-4">
+          <div class="row g-3">
+            <div class="col-md-3"><label class="form-label">Số tập</label><input class="form-control" type="number" name="episode_number" value="1" min="1"></div>
+            <div class="col-md-9"><label class="form-label">Tên tập</label><input class="form-control" name="title" required></div>
+            <div class="col-12"><label class="form-label">Kịch bản đầy đủ</label><textarea class="form-control" name="script_text" rows="7"></textarea></div>
+            <div class="col-12"><button class="btn btn-primary">Tạo tập phim</button></div>
+          </div>
+        </form>
+        <div class="list-group">
+          {% for ep in project.episodes %}
+          <a class="list-group-item list-group-item-action" href="/episodes/{{ ep.id }}">
+            <div class="d-flex justify-content-between">
+              <strong>Tập {{ ep.episode_number }}: {{ ep.title }}</strong>
+              <span class="badge status-badge">{{ ep.status|vn_status }}</span>
+            </div>
+            <div class="small text-muted">{{ ep.scenes|length }} cảnh · {{ ep.duration_seconds or 0 }} giây</div>
+          </a>
+          {% else %}
+          <div class="text-muted">Chưa có tập phim.</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

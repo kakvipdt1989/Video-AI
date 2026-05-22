@@ -1,0 +1,20 @@
+BẢN NÀY ĐÃ BỔ SUNG CÁCH TẠO PHẦN MỀM CHẠY LUÔN TRÊN WINDOWS
+
+Có 2 kiểu chạy:
+
+1) Chạy mã nguồn như bản cũ:
+   - Cần Python và FFmpeg trên máy đó.
+   - Dùng file: chay_phan_mem_windows.bat
+
+2) Tạo bản portable chạy luôn:
+   - Người dùng cuối KHÔNG cần cài Python, pip hoặc FFmpeg.
+   - Cần build một lần trên máy Windows bằng file:
+     windows\tao_ban_chay_luon_windows.bat
+   - Trước khi build, đặt ffmpeg.exe vào:
+     tools\ffmpeg\bin\ffmpeg.exe
+   - Sau khi build, copy nguyên thư mục:
+     dist\XuongVideoAI
+   - Máy khác chỉ cần bấm:
+     XuongVideoAI.exe
+
+Xem chi tiết trong file README_CHAY_KHONG_CAN_CAI.md

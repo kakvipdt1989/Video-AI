@@ -1,0 +1,12 @@
+BAN NAY DUNG DE BUILD ONLINE TREN GITHUB ACTIONS
+
+Ban can lam:
+1. Tao repository GitHub.
+2. Upload TOAN BO source nay len repository.
+3. Vao tab Actions.
+4. Chay workflow: Tao ban Windows Portable.
+5. Tai artifact: XuongVideoAI-Windows-Portable.
+6. Giai nen va bam XuongVideoAI.exe.
+
+May cua ban khong can cai Python, FFmpeg, pip hay PyInstaller.
+GitHub se tu build tren may Windows online.

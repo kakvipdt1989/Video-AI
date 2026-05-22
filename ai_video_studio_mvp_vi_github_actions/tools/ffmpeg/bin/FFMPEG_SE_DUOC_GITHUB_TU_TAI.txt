@@ -1,0 +1,2 @@
+Khong can dat ffmpeg.exe vao day khi build bang GitHub Actions.
+Workflow se tu tai FFmpeg Windows va nhung vao phan mem.

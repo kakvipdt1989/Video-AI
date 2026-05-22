@@ -1,0 +1,8 @@
+body { background: #f7f8fb; }
+.card { border: 0; border-radius: 1rem; }
+.card-header:first-child { border-radius: 1rem 1rem 0 0; }
+.pre-scroll { max-height: 360px; overflow: auto; white-space: pre-wrap; }
+.monospace { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: .9rem; }
+.status-badge { background: #eef2ff; color: #3730a3; border: 1px solid #c7d2fe; }
+.accordion-item { border: 0; }
+.accordion-button:not(.collapsed) { background: #f8fafc; color: #111827; box-shadow: none; }

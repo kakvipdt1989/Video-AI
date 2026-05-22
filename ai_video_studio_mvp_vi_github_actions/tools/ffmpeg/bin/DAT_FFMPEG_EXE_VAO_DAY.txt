@@ -1,0 +1,5 @@
+Đặt file ffmpeg.exe vào thư mục này nếu bạn muốn build bản chạy luôn cho Windows.
+Đường dẫn đúng sau khi đặt:
+  tools\ffmpeg\bin\ffmpeg.exe
+
+Khi build bằng windows\tao_ban_chay_luon_windows.bat, ffmpeg.exe sẽ được nhúng vào bản portable.

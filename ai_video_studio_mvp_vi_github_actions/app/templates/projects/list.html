@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex align-items-center justify-content-between mb-4">
+  <div>
+    <h1 class="h3 mb-1">Dự án video</h1>
+    <p class="text-muted mb-0">Tạo dự án, khai báo phong cách hình ảnh, tỷ lệ video và nhà cung cấp AI.</p>
+  </div>
+</div>
+<div class="row g-4">
+  <div class="col-lg-5">
+    <div class="card shadow-sm">
+      <div class="card-header bg-white"><strong>Tạo dự án mới</strong></div>
+      <div class="card-body">
+        <form method="post" action="/projects" class="vstack gap-3">
+          <div><label class="form-label">Tên dự án</label><input class="form-control" name="name" required></div>
+          <div><label class="form-label">Mô tả</label><textarea class="form-control" name="description" rows="3"></textarea></div>
+          <div class="row g-3">
+            <div class="col-md-6"><label class="form-label">Thể loại</label><input class="form-control" name="genre" value="phim ngắn"></div>
+            <div class="col-md-6"><label class="form-label">Ngôn ngữ</label><input class="form-control" name="language" value="Tiếng Việt"></div>
+          </div>
+          <div><label class="form-label">Phong cách hình ảnh</label><input class="form-control" name="visual_style" value="điện ảnh chân thực"></div>
+          <div class="row g-3">
+            <div class="col-md-4"><label class="form-label">Tỷ lệ</label><select class="form-select" name="aspect_ratio"><option>16:9</option><option>9:16</option><option>1:1</option></select></div>
+            <div class="col-md-4"><label class="form-label">Giây/cảnh</label><input class="form-control" type="number" min="1" max="30" name="default_duration_per_scene" value="8"></div>
+            <div class="col-md-4"><label class="form-label">Nhà cung cấp</label><select class="form-select" name="provider_name"><option value="mock_veo">Veo mô phỏng</option><option value="veo_placeholder">Veo thật - chờ cấu hình</option></select></div>
+          </div>
+          <button class="btn btn-primary">Tạo dự án</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-7">
+    <div class="card shadow-sm">
+      <div class="card-header bg-white"><strong>Danh sách dự án</strong></div>
+      <div class="list-group list-group-flush">
+        {% for project in projects %}
+        <div class="list-group-item">
+          <div class="d-flex justify-content-between gap-3">
+            <div>
+              <a class="h5 text-decoration-none" href="/projects/{{ project.id }}">{{ project.name }}</a>
+              <div class="small text-muted">{{ project.genre }} · {{ project.visual_style }} · {{ project.aspect_ratio }} · {{ project.provider_name }}</div>
+              <div class="mt-1">{{ project.description or '' }}</div>
+            </div>
+            <form method="post" action="/projects/{{ project.id }}/delete" onsubmit="return confirm('Bạn chắc chắn muốn xóa dự án này?')">
+              <button class="btn btn-sm btn-outline-danger">Xóa</button>
+            </form>
+          </div>
+        </div>
+        {% else %}
+        <div class="list-group-item text-muted">Chưa có dự án.</div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
